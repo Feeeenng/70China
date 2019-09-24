@@ -6,12 +6,16 @@
                     <canvas class="mycanvas" ref="myCanvas" alt="" width="300px" height="300px"></canvas>
                 </div>
                 <div class="img-box">
-                    <p>国旗</p>
+                    <input type="text">
                 </div>
             </div>
         </div>
         <div class="success">
             <mt-button type="primary" @click="toImage">生成</mt-button>
+            <mt-button type="default">default</mt-button>
+<mt-button type="primary">primary</mt-button>
+<mt-button type="danger">danger</mt-button>
+            <mt-header fixed title="固定在顶部"></mt-header>
             <img :src="successUrl" alt="">
         </div>
     </div>
@@ -19,23 +23,24 @@
 
 <script>
     import html2canvas from 'html2canvas';
+    import img1 from '../assets/weiqu.jpg'
     export default {
         name: "Index",
         data (){
             return {
                 successUrl:'',
-                item: 'https://i.loli.net/2019/09/24/cxOHhmpVaIniLqF.jpg'
+                item: img1
             }
         },
         mounted(){
             let canvas = this.$refs.myCanvas
             let context = canvas.getContext('2d')
             let img = new Image();
-            img.src = 'https://i.loli.net/2019/09/24/cxOHhmpVaIniLqF.jpg'
-            img.setAttribute('crossOrigin', 'anonymous')
+            img.src = this.item
+            img.crossOrigin = 'anonymous'
             img.onload = function () {
-                canvas.setAttribute("width",img.width)
-                canvas.setAttribute("height",img.height)
+                canvas.setAttribute("width", 200)
+                canvas.setAttribute("height", 200)
                   // 绘制图片
                 context.drawImage(img,0,0,img.width,img.height)
             }
