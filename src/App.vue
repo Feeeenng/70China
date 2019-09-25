@@ -14,6 +14,7 @@ html,body{
     min-height: 100%;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    text-align: center;
 }
 #app {
   /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/

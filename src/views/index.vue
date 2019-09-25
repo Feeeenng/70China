@@ -1,41 +1,69 @@
 <template>
     <div class="index-body">
         <div class="index-title">
-            <mt-cell class="index-title-cell" title="标题文字">
-            </mt-cell>
+            <h2 style="color: #e3e9ef;margin-left: 15px">制作属于自己的国庆头像</h2>
         </div>
         <div class="image-box-left">
-            <input imgcount= "0"  type="file" name="file" accept="image/gif,image/jpeg,image/bmp"  id="headerImg" multiple="multiple" style="display: none">  
-          <eva-icon class="icon-eva" name="arrowhead-left" animation="flip" fill="#e3e9ef"></eva-icon>
+          <i class="icon-eva iconfont icon-jiantou_xiangzuoliangci" style="font-size: 35px;"></i>
         </div>
         <div class="image-body">
-            <div class="image-box" @click="upload">
-                <p>添加图片</p>
+            <div class="image-box">
+            <p style="position: relative; top: 80px;">点击添加</p>
+            <input @change="upload" type="file" name="file" accept="image/gif,image/jpeg,image/bmp"  id="headerImg" multiple="multiple">  
+
             </div>
+            <img id="export" src="" alt="">
+            <canvas id="cvs"></canvas>
         </div>
             <div class="image-box-right">
-              <eva-icon class="icon-eva" name="arrowhead-right" animation="flip" fill="#e3e9ef"></eva-icon>
+              <i class="icon-eva iconfont icon-jiantou_xiangyouliangci" style="font-size: 35px"></i>
             </div>
         <div class="clear"></div>
         <div class="click-box">
             <div class="click-upload">
             </div>
         </div>
+        <div style="display: none">
+            <img id="img" src="" alt="">
+        </div>
 
     </div>
 </template>
 
 <script>
-     import { EvaIcon } from 'vue-eva-icons'
     export default {
         name: "index",
-        components: {
-        [EvaIcon.name]: EvaIcon
-        },
         methods:{
             upload(){
-                document.getElementById('headerImg').click()
+                var file = document.getElementById("headerImg").files[0];
+                var img = document.getElementById("img");
+                console.log(file);
+                var reader = new FileReader;
+                if (file){
+                    reader.readAsDataURL(file);
+                    reader.onload = function (e) {
+                        img.src = reader.result;
+                        img.onload = function () {
+                            console.log(img)
+                        }
+                    }
+                }
 
+            },
+            img2Cvs(img){
+                console.log(1)
+                var cvs = document.getElementById("cvs");
+                cvs.width = img.width;
+                cvs.height = img.height;
+                cvs.style.display = "block";
+                canvasFabric = new fabric.Canvas("cvs", {
+                width: screenWidth,
+                height: screenWidth,
+                backgroundImage: new fabric.Image(img, {
+                scaleX: screenWidth / img.width,
+                scaleY: screenWidth / img.height
+        })
+    });
             }
         }
     }
@@ -51,7 +79,6 @@
 }
 .index-title-cell{
     height: 40px;
-
     /*padding: 8px 12px;*/
     border-radius: 22px;
     background-color: #e3e9ef;
@@ -67,6 +94,7 @@
     border: 10px solid #ffe9e4;
     background-color: #CCCCCC;
     border-radius: 15px;
+    box-shadow: 0 0 5px #aaa;
     margin-left: 30px;
     float: left;
 }
@@ -80,7 +108,6 @@
     border-radius: 30px;
     /*font-size: 30px;*/
 }
-
 .icon-eva{
     font-size: 20px;
 }
@@ -88,5 +115,12 @@
 }
 .clear{
     clear: both;
+}
+#headerImg{
+    height: 12rem;
+    width: 12rem;
+    top: 0;
+    left: 0;
+    opacity: 0;
 }
 </style>
