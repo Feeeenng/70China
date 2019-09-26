@@ -8,12 +8,11 @@
         </div>
         <div class="image-body">
             <div class="image-box">
-            <p style="position: relative; top: 80px;">点击添加</p>
-            <input @change="upload" type="file" name="file" accept="image/gif,image/jpeg,image/bmp"  id="headerImg" multiple="multiple">  
-
+                <p style="position: relative; top: 80px;">点击添加</p>
+                <input @change="upload" type="file" name="file" accept="image/gif,image/jpeg,image/bmp"  id="headerImg" multiple="multiple">  
             </div>
             <img id="export" src="" alt="">
-            <canvas id="cvs"></canvas>
+            <canvas id="cvs">1212</canvas>
         </div>
             <div class="image-box-right">
               <i class="icon-eva iconfont icon-jiantou_xiangyouliangci" style="font-size: 35px"></i>
@@ -35,28 +34,30 @@
         name: "index",
         methods:{
             upload(){
-                var file = document.getElementById("headerImg").files[0];
-                var img = document.getElementById("img");
+                let file = document.getElementById("headerImg").files[0];
+                let img = document.getElementById("img");
                 console.log(file);
                 var reader = new FileReader;
+                var _this =  this
                 if (file){
                     reader.readAsDataURL(file);
-                    reader.onload = function (e) {
+                    reader.onload = () => {
                         img.src = reader.result;
-                        img.onload = function () {
+                        img.onload =  () => {
                             console.log(img)
+                            this.img2Cvs(img)
                         }
                     }
                 }
 
             },
             img2Cvs(img){
-                console.log(1)
+                var screenWidth = window.screen.width < 500 ? window.screen.width: 300;
                 var cvs = document.getElementById("cvs");
                 cvs.width = img.width;
                 cvs.height = img.height;
                 cvs.style.display = "block";
-                canvasFabric = new fabric.Canvas("cvs", {
+                let canvasFabric = new fabric.Canvas("cvs", {
                 width: screenWidth,
                 height: screenWidth,
                 backgroundImage: new fabric.Image(img, {
